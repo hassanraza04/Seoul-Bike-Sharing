@@ -2,6 +2,8 @@
 
 A Streamlit app that predicts hourly bike-sharing demand in Seoul using linear regression. Built for a data science course project.
 
+**Live app:** [https://seoul-bike-sharing.streamlit.app](https://seoul-bike-sharing.streamlit.app)
+
 ## Overview
 
 The app helps a bike-sharing operator anticipate **hourly demand** using historical data (weather and calendar) so they can rebalance bikes, plan maintenance, and optimize staffing.
