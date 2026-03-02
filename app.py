@@ -238,6 +238,8 @@ elif page == "Prediction 🎯":
             st.write(f"- **R²** {r2:,.3f}")
 
         mae_val = metrics.mean_absolute_error(y_test, predictions)
+        mse_val = metrics.mean_squared_error(y_test, predictions)
+        r2_val = metrics.r2_score(y_test, predictions)
         st.success(f"Model performance (MAE): {np.round(mae_val, 2)} bikes per hour.")
 
         st.markdown("##### Driving variables (model coefficients)")
@@ -266,9 +268,10 @@ elif page == "Prediction 🎯":
         st.markdown("---")
         st.markdown("##### Conclusion")
         st.markdown(
-            "This dashboard addressed the problem of anticipating **hourly bike-sharing demand** in Seoul. "
-            "We explored the dataset (Introduction), identified patterns such as rush-hour and seasonal effects (Visualization), "
-            "and built a linear regression model to predict **Rented Bike Count** from weather and calendar features. "
-            "The coefficients above show which variables drive demand most. "
-            "Operators can use the model’s predictions to rebalance bikes, schedule maintenance, and plan staffing more effectively."
+            f"On the test set (20% of the data), the model has **MAE = {mae_val:,.0f}** bikes per hour, "
+            f"**MSE = {mse_val:,.0f}**, and **R² = {r2_val:.3f}**. "
+            f"On average, predictions are off by about {mae_val:,.0f} rentals per hour; "
+            f"R² indicates that the chosen features explain roughly {max(0, r2_val) * 100:.1f}% of the variance in demand. "
+            "The coefficients above show which variables drive predictions most. "
+            "Operators can use these forecasts for rebalancing, maintenance, and staffing, with the reported MAE as a guide to expected error."
         )
