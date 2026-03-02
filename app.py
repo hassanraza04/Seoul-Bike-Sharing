@@ -266,8 +266,9 @@ elif page == "Prediction 🎯":
         st.markdown("---")
         st.markdown("##### Conclusion")
         st.markdown(
-            "We used linear regression to predict **Rented Bike Count** from weather and calendar features. "
-            "The model’s main drivers (see coefficients above) help explain which factors increase or decrease demand. "
-            "With this tool, operators can plan rebalancing, maintenance, and staffing using predicted hourly demand "
-            "instead of guesswork."
+            "This dashboard addressed the problem of anticipating **hourly bike-sharing demand** in Seoul. "
+            "We explored the dataset (Introduction), identified patterns such as rush-hour and seasonal effects (Visualization), "
+            "and built a linear regression model to predict **Rented Bike Count** from weather and calendar features. "
+            "The coefficients above show which variables drive demand most. "
+            "Operators can use the model’s predictions to rebalance bikes, schedule maintenance, and plan staffing more effectively."
         )
