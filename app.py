@@ -211,7 +211,7 @@ elif page == "Prediction 🎯":
     selected_metrics = st.sidebar.multiselect(
         "Metrics to display",
         ["Mean Squared Error (MSE)", "Mean Absolute Error (MAE)", "R² Score"],
-        default=["Mean Absolute Error (MAE)"],
+        default=["Mean Squared Error (MSE)", "Mean Absolute Error (MAE)", "R² Score"],
     )
 
     if not features_selection:
