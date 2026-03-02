@@ -219,7 +219,9 @@ elif page == "Prediction 🎯":
     else:
         X = df2[features_selection]
         y = df2[target_col]
+        st.markdown("**Sample input (features)** — first 5 rows of the dataset; each row is one hourly record.")
         st.dataframe(X.head())
+        st.markdown("**Target (Rented Bike Count)** — actual counts for those same 5 records (what we predict).")
         st.dataframe(y.head())
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
