@@ -68,8 +68,8 @@ if page == "Introduction 📘":
 
     st.markdown("##### 📂 Dataset")
     st.markdown(
-        "Source: [UCI ML Repository – Seoul Bike Sharing](https://archive.ics.uci.edu/ml/datasets/Seoul+Bike+Sharing+Demand) "
-        "(or Kaggle Seoul Bike Sharing Demand). Hourly records with weather and calendar features."
+        "Source: [Kaggle – Seoul Bike Sharing Demand Prediction](https://www.kaggle.com/datasets/saurabhshahane/seoul-bike-sharing-demand-prediction/data?select=SeoulBikeData.csv). "
+        "Hourly records with weather and calendar features."
     )
     n_rows, n_cols = df.shape
     st.caption(f"**Shape:** {n_rows:,} rows × {n_cols} columns")
@@ -262,4 +262,12 @@ elif page == "Prediction 🎯":
             "**How this solves the problem:** Expected hourly demand from the model can be used "
             "for rebalancing bikes across stations, planning maintenance windows, and staffing decisions."
         )
-        print()
+
+        st.markdown("---")
+        st.markdown("##### Conclusion")
+        st.markdown(
+            "We used linear regression to predict **Rented Bike Count** from weather and calendar features. "
+            "The model’s main drivers (see coefficients above) help explain which factors increase or decrease demand. "
+            "With this tool, operators can plan rebalancing, maintenance, and staffing using predicted hourly demand "
+            "instead of guesswork."
+        )

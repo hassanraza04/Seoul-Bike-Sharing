@@ -10,7 +10,7 @@ The app helps a bike-sharing operator anticipate **hourly demand** using histori
 
 ## Dataset
 
-- **Source:** [UCI ML Repository – Seoul Bike Sharing Demand](https://archive.ics.uci.edu/ml/datasets/Seoul+Bike+Sharing+Demand) (also on Kaggle).
+- **Source:** [Kaggle – Seoul Bike Sharing Demand Prediction](https://www.kaggle.com/datasets/saurabhshahane/seoul-bike-sharing-demand-prediction/data?select=SeoulBikeData.csv).
 - **Contents:** Hourly records with weather (temperature, humidity, wind, visibility, solar radiation, rainfall, snowfall) and calendar features (hour, season, holiday, functioning day).
 - **Target variable:** `Rented Bike Count`.
 
