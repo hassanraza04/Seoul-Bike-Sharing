@@ -219,15 +219,16 @@ elif page == "Prediction 🎯":
     else:
         X = df2[features_selection]
         y = df2[target_col]
-        st.markdown("**Sample input (features)** — first 5 rows of the dataset; each row is one hourly record.")
-        st.dataframe(X.head())
-        st.markdown("**Target (Rented Bike Count)** — actual counts for those same 5 records (what we predict).")
-        st.dataframe(y.head())
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         model = LinearRegression()
         model.fit(X_train, y_train)
         predictions = np.maximum(model.predict(X_test), 0)  # clip to 0: counts can't be negative
+
+        st.markdown("**Sample from test set (features)** — first 5 rows; each row is one hourly record.")
+        st.dataframe(X_test.head())
+        st.markdown("**Actual Rented Bike Count** for those 5 test rows (target).")
+        st.dataframe(y_test.head())
 
         if "Mean Squared Error (MSE)" in selected_metrics:
             mse = metrics.mean_squared_error(y_test, predictions)
