@@ -225,7 +225,7 @@ elif page == "Prediction 🎯":
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         model = LinearRegression()
         model.fit(X_train, y_train)
-        predictions = model.predict(X_test)
+        predictions = np.maximum(model.predict(X_test), 0)  # clip to 0: counts can't be negative
 
         if "Mean Squared Error (MSE)" in selected_metrics:
             mse = metrics.mean_squared_error(y_test, predictions)
@@ -259,6 +259,7 @@ elif page == "Prediction 🎯":
         ax.set_title("Actual vs Predicted (Rented Bike Count)")
         st.pyplot(fig)
         plt.close()
+        st.caption("Predictions are clipped at 0 because linear regression can output negative values; bike counts cannot be negative.")
 
         st.markdown(
             "**How this solves the problem:** Expected hourly demand from the model can be used "
