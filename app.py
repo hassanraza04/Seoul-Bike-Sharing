@@ -185,14 +185,15 @@ elif page == "Visualization 📊":
             col_y = col_y_choice
             numeric_cols = [c for c in [col_x, col_y] if c in df.select_dtypes(include=np.number).columns]
             if len(numeric_cols) == 2:
-                plot_df = df[[col_x, col_y]].dropna().sort_values(by=col_x)
-                x_vals = plot_df[col_x].values
-                y_vals = plot_df[col_y].values
+                agg_df = df[[col_x, col_y]].dropna().groupby(col_x, as_index=False)[col_y].mean()
+                agg_df = agg_df.sort_values(by=col_x)
+                x_vals = agg_df[col_x].values
+                y_vals = agg_df[col_y].values
                 fig, ax = plt.subplots(figsize=(10, 5))
-                ax.plot(x_vals, y_vals, "b-", alpha=0.6)
+                ax.scatter(x_vals, y_vals, alpha=0.8, s=40)
                 ax.set_xlabel("Variable 1: " + col_x)
-                ax.set_ylabel("Variable 2: " + col_y)
-                ax.set_title(f"Variable 2 ({col_y}) vs Variable 1 ({col_x})")
+                ax.set_ylabel("Variable 2 (mean): " + col_y)
+                ax.set_title(f"Mean {col_y} vs {col_x} (one point per {col_x} value)")
                 plt.tight_layout()
                 st.pyplot(fig)
                 plt.close()
