@@ -168,14 +168,36 @@ elif page == "Visualization 📊":
             st.caption("Compare average demand on holidays vs regular days.")
 
     with tab_explore:
-        col_x = st.selectbox("Select X-axis variable", df.columns, index=0, key="x")
-        col_y = st.selectbox("Select Y-axis variable", df.columns, index=1, key="y")
-        numeric_cols = [c for c in [col_x, col_y] if c in df.select_dtypes(include=np.number).columns]
-        if len(numeric_cols) == 2:
-            st.bar_chart(df[[col_x, col_y]].sort_values(by=col_x), use_container_width=True)
-            st.line_chart(df[[col_x, col_y]].sort_values(by=col_x), use_container_width=True)
+        st.caption("Variable 1 = X-axis, Variable 2 = Y-axis (values). Pick one variable or two.")
+        var1_options = list(df.columns)
+        var2_options = ["— None (Variable 1 only) —"] + list(df.columns)
+        col_x = st.selectbox("Variable 1", var1_options, index=0, key="v1")
+        col_y_choice = st.selectbox("Variable 2", var2_options, index=1, key="v2")  # index=1 => Rented Bike Count
+        single_var = col_y_choice.startswith("— None")
+        if single_var:
+            col_y = col_x
+            plot_df = df[[col_x]].copy()
+            plot_df["Index"] = range(len(plot_df))
+            plot_df = plot_df[["Index", col_x]]
+            st.bar_chart(plot_df.set_index("Index"), use_container_width=True)
+            st.line_chart(plot_df.set_index("Index"), use_container_width=True)
         else:
-            st.info("Choose two numeric columns for bar/line charts, or use Guided insights.")
+            col_y = col_y_choice
+            numeric_cols = [c for c in [col_x, col_y] if c in df.select_dtypes(include=np.number).columns]
+            if len(numeric_cols) == 2:
+                plot_df = df[[col_x, col_y]].dropna().sort_values(by=col_x)
+                x_vals = plot_df[col_x].values
+                y_vals = plot_df[col_y].values
+                fig, ax = plt.subplots(figsize=(10, 5))
+                ax.plot(x_vals, y_vals, "b-", alpha=0.6)
+                ax.set_xlabel("Variable 1: " + col_x)
+                ax.set_ylabel("Variable 2: " + col_y)
+                ax.set_title(f"Variable 2 ({col_y}) vs Variable 1 ({col_x})")
+                plt.tight_layout()
+                st.pyplot(fig)
+                plt.close()
+            else:
+                st.info("Choose two numeric columns for bar/line charts, or use Guided insights.")
 
     with tab_corr:
         df_numeric = df.select_dtypes(include=np.number)
@@ -243,7 +265,10 @@ elif page == "Prediction 🎯":
         mae_val = metrics.mean_absolute_error(y_test, predictions)
         mse_val = metrics.mean_squared_error(y_test, predictions)
         r2_val = metrics.r2_score(y_test, predictions)
+        mean_demand = float(y.mean())
+        mae_pct = (mae_val / mean_demand * 100) if mean_demand > 0 else 0
         st.success(f"Model performance (MAE): {np.round(mae_val, 2)} bikes per hour.")
+        st.caption(f"An MAE of {mae_val:,.0f} bikes represents about {mae_pct:.1f}% of average demand ({mean_demand:,.0f} bikes/hour).")
 
         st.markdown("##### Driving variables (model coefficients)")
         coef_df = pd.DataFrame({
