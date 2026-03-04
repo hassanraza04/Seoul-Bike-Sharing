@@ -201,13 +201,18 @@ elif page == "Visualization 📊":
                 st.info("Choose two numeric columns for bar/line charts, or use Guided insights.")
 
     with tab_corr:
-        df_numeric = df.select_dtypes(include=np.number)
+        df_corr = df.dropna().copy()
+        for col in ["Seasons", "Holiday", "Functioning Day"]:
+            if col in df_corr.columns:
+                df_corr[col] = LabelEncoder().fit_transform(df_corr[col].astype(str))
+        df_numeric = df_corr.select_dtypes(include=np.number)
         fig_corr, ax_corr = plt.subplots(figsize=(12, 10))
         sns.heatmap(df_numeric.corr(), annot=True, fmt=".2f", cmap="coolwarm", ax=ax_corr)
-        ax_corr.set_title("Correlation matrix (numeric columns)")
+        ax_corr.set_title("Correlation matrix (numeric + encoded categoricals)")
         plt.tight_layout()
         st.pyplot(fig_corr)
         plt.close()
+        st.caption("Seasons, Holiday, and Functioning Day are encoded to numbers so they appear in the correlation matrix.")
 
 ## Page 3 – Prediction (Linear Regression)
 elif page == "Prediction 🎯":
